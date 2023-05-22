@@ -61,5 +61,11 @@ linear_regression_mse = mean_squared_error(y_test, linear_regression_predictions
 print("Linear Regression MSE:", linear_regression_mse)
 
 
+# Create an instance of the Decision Tree model
+decision_tree = DecisionTreeRegressor()
+decision_tree.fit(X_train, y_train)
+decision_tree_predictions = decision_tree.predict(X_test)
+decision_tree_mse = mean_squared_error(y_test, decision_tree_predictions)
+print("Decision Tree MSE:", decision_tree_mse)
 
 
