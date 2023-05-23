@@ -64,11 +64,18 @@ The code performs the following steps:
     Running the Code
 
 
-### Copy code
+### Install Dependecies
 ```shell
   pip install -r requirements.txt
 ```
 Make sure to update the file path in the code to the location of your own dataset. The code assumes that the dataset is in a CSV file format.
+
+### Usage
+Run the main python file 
+```shell
+python src/main.py
+```
+Or Run the notebook
 
 ### Conclusion
 
