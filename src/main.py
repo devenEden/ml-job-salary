@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from helpers.getRelationship import getRelationship
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
@@ -12,33 +11,36 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 
-script_dir = os.path.dirname(__file__)  # Script directory
-full_path = os.path.join(script_dir, '../dataset/Salary_Data.csv')
+script_dir = os.path.dirname(os.getcwd())  # Script directory
+full_path = os.path.abspath(os.path.join(script_dir, "dataset", "Salary_Data.csv"))
 
-data = pd.read_csv(full_path)
+data_vis = pd.read_csv(full_path)
 
 # Display the first few rows of the dataset
-print(data.head())
+print(data_vis.head())
 
-# Get the number of rows and columns in the dataset
-print("Shape:", data.shape)
+# Get the number of rows and columns in the data_visset
+print("Shape:", data_vis.shape)
 
 # Get the column names
-print("Columns:", data.columns)
+print("Columns:", data_vis.columns)
 
-# Display the data types of each feature
-print(data.dtypes)
+# Display the data_vis types of each feature
+print(data_vis.dtypes)
 
 # Get summary statistics of numerical features
-print(data.describe())
+print(data_vis.describe())
 
 # Get unique values and their counts for categorical features
-for column in data.select_dtypes(include="object"):
+for column in data_vis.select_dtypes(include="object"):
     print(f"\n{column}:")
-    print(data[column].value_counts())
+    print(data_vis[column].value_counts())
 
 # Check for missing values
-print(data.isnull().sum())# Identify the target variable
+print(data_vis.isnull().sum())# Identify the target variable
+
+# drop NaN values
+data_vis.dropna(inplace=True)
 
 target_variable = "Salary"
 years_of_experience = "Years of Experience"
@@ -47,18 +49,28 @@ gender = "Gender"
 educatation_level = "Education Level"
 job_title = "Job Title"
 
-getRelationship(data,target_variable,years_of_experience)
-getRelationship(data,target_variable,age)
+plt.scatter(data_vis[years_of_experience], data_vis[target_variable])
+plt.xlabel(years_of_experience)
+plt.ylabel(target_variable)
+plt.title("Relationship between " + years_of_experience + " and " + target_variable)
+plt.show()
+plt.scatter(data_vis[age], data_vis[target_variable])
+plt.xlabel(age)
+plt.ylabel(target_variable)
+plt.title("Relationship between " + age + " and " + target_variable)
+plt.show()
 
 # Load the data
 data = pd.DataFrame({
-    'Age': [32.0, 28.0, 45.0, 36.0, 52.0],
-    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male'],
-    'Education Level': ["Bachelor's", "Master's", "PhD", "Bachelor's", "Master's"],
-    'Job Title': ['Software Engineer', 'Data Analyst', 'Senior Manager', 'Sales Associate', 'Director'],
-    'Years of Experience': [5.0, 3.0, 15.0, 7.0, 20.0],
-    'Salary': [90000.0, 65000.0, 150000.0, 60000.0, 200000.0]
+    'Age': data_vis[age].tolist(),
+    'Gender': data_vis[gender].tolist(),
+    'Education Level': data_vis[educatation_level].tolist(),
+    'Job Title': data_vis[job_title].tolist,
+    'Years of Experience': data_vis[years_of_experience].tolist(),
+    'Salary': data_vis[target_variable].tolist()
 })
+
+print(data)
 
 # Separate features (X) and target variable (y)
 X = data.drop("Salary", axis=1)
